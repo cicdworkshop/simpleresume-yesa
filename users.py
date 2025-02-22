@@ -22,11 +22,15 @@ class User:
     def sort_user_experience(self):
         """Sort users experience based on chronological order. The most recent experience should be first.
         """
-        self.experiences = sorted(self.experiences, key=lambda x: x["title"])
+        self.experiences = sorted(self.experiences, key=lambda x: x["start_date"], reverse=True)
 
     # (FOR WORKSHOP)
     # Implement the function to sort user certifications based on the chronological order.
     # Copy the above function, paste it below, and modify it to sort user certifications.
+    def sort_user_certifications(self):
+        """Sort users experience based on chronological order. The most recent experience should be first.
+        """
+        self.certifications = sorted(self.certifications, key=lambda x: x["date"], reverse=True)
 
 
 def load_dummy_users() -> list:
@@ -55,5 +59,6 @@ def load_dummy_users() -> list:
         user.sort_user_experience()
         # (FOR WORKSHOP)
         # Call the function to sort user certifications.
+        user.sort_user_certifications()
         users.append(user)
     return users
