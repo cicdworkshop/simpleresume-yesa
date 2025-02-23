@@ -16,10 +16,10 @@ jobs:
           echo "${{ secrets.AWS_KEYPAIR }}" > /tmp/aws_keypair.pem
       - name: Deploy to AWS
         run: |
-          scp -i /tmp/aws_keypair.pem -r . ubuntu@${{ secrets.AWS_IP }}:simpleresume-yesa
+          scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/aws_keypair.pem -r . ubuntu@${{ secrets.AWS_IP }}:simpleresume-yesa
       - name: Restart the systemd service
         run: |
-          ssh -i /tmp/aws_keypair.pem ubuntu@${{ secrets.AWS_IP }} "sudo systemctl restart web"
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/aws_keypair.pem ubuntu@${{ secrets.AWS_IP }} "sudo systemctl restart web"
       - name: Check if the systemd service runs successfully
         run: |
-          ssh -i /tmp/aws_keypair.pem ubuntu@${{ secrets.AWS_IP }} "sudo systemctl status web"
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/aws_keypair.pem ubuntu@${{ secrets.AWS_IP }} "sudo systemctl status web"
