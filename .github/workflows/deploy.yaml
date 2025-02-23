@@ -1,0 +1,25 @@
+name: Deploy to AWS
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get the keypair
+        run: |
+          echo "${{ secrets.AWS_KEYPAIR }}" > /tmp/aws_keypair.pem
+      - name: Deploy to AWS
+        run: |
+          scp -i /tmp/aws_keypair.pem -r . ubuntu@${{ secrets.AWS_IP }}:simpleresume-yesa
+      - name: Restart the systemd service
+        run: |
+          ssh -i /tmp/aws_keypair.pem ubuntu@${{ secrets.AWS_IP }} "sudo systemctl restart web"
+      - name: Check if the systemd service runs successfully
+        run: |
+          ssh -i /tmp/aws_keypair.pem ubuntu@${{ secrets.AWS_IP }} "sudo systemctl status web"
