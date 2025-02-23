@@ -17,6 +17,7 @@ jobs:
           chmod 0400 /tmp/aws_keypair.pem
       - name: Deploy to AWS
         run: |
+          rm -rf .git
           scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/aws_keypair.pem -r . ubuntu@${{ secrets.AWS_IP }}:simpleresume-yesa
       - name: Restart the systemd service
         run: |
