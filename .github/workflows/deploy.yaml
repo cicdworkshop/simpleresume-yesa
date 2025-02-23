@@ -14,6 +14,7 @@ jobs:
       - name: Get the keypair
         run: |
           echo "${{ secrets.AWS_KEYPAIR }}" > /tmp/aws_keypair.pem
+          chmod 0400 /tmp/aws_keypair.pem
       - name: Deploy to AWS
         run: |
           scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/aws_keypair.pem -r . ubuntu@${{ secrets.AWS_IP }}:simpleresume-yesa
